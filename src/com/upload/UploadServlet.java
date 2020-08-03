@@ -50,10 +50,17 @@ public class UploadServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		
 		PrintWriter out = response.getWriter();
-		out.println("작성자:"+author+"<br>");
-		out.println("파일명:"+fileName+"<br>");
-		out.println("파일크기:"+part.getSize()+"<br>");
+		/*
+		 * out.println("작성자:"+author+"<br>");
+		 * out.println("파일명:"+fileName+"<br>");
+		 * out.println("파일크기:"+part.getSize()+"<br>");
+		 */
 	
+		  out.println("작성자:"+author+"<br>");
+		  out.println("파일명: <a href='FileDown?file_name="+fileName+"'>"+fileName+"</a><br>");
+		  out.println("파일크기:"+part.getSize()+"<br>");
+		
+		
 	}
 
 }
