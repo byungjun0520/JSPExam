@@ -160,6 +160,17 @@
    </error-page>
    
    
+   <servlet>
+      <servlet-name>PieChartServlet</servlet-name>
+      <servlet-class>chart.PieChartServlet</servlet-class>
+   </servlet>
+   
+   <servlet-mapping>
+    <servlet-name>PieChartServlet</servlet-name>   
+    <url-pattern>/PieChartServlet</url-pattern>
+   </servlet-mapping>
+   
+   
 </web-app>
 
 
