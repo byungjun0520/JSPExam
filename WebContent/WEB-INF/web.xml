@@ -171,6 +171,21 @@
    </servlet-mapping>
    
    
+     <servlet>
+      <servlet-name>XYPlotServlet</servlet-name>
+      <servlet-class>chart.XYPlotServlet</servlet-class>
+   </servlet>
+   
+   <servlet-mapping>
+    <servlet-name>XYPlotServlet</servlet-name>   
+    <url-pattern>/XYPlotServlet</url-pattern>
+   </servlet-mapping>
+   
+   
+   
+   
+   
+   
 </web-app>
 
 
