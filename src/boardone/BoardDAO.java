@@ -83,6 +83,7 @@ public class BoardDAO {
 	}// end insertArticle
 	
 	// 첫번째 전체 글의 개수를 가져올 메소드 구현
+	// 검색한 내용이 몇개인지 알아보는 메소드(검색조건(what), 검색내용(content))
 	public int getArticleCount() {
 		
 		Connection con = null;
@@ -92,7 +93,9 @@ public class BoardDAO {
 		
 		try {
 			con = ConnUtil.getConnection();
-			pstmt = con.prepareStatement("select count(*) from board");
+			String sql ="select count(*) from board";
+			
+			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -110,6 +113,8 @@ public class BoardDAO {
 	}
 	
 	// board table에서 가져올 메소드 구현 List
+	// 검색한 내용을 리스트로 받아옴(what:검색조건, content:검색내용, 
+	//start:시작번호, end:끝번호) 시작번호와 끝번호는 페이 처리
 	public List<BoardVO> getArticles(int start, int end) {// 수정1
 		
 		Connection con = null;
@@ -133,11 +138,10 @@ public class BoardDAO {
 			pstmt.setInt(2, end);
 			
 			rs = pstmt.executeQuery();
-			
 			if(rs.next()) {
-				articleList = new ArrayList<BoardVO>(end-start+1);// 수정 4
+				articleList = new ArrayList<BoardVO>(5);// 수정 4
 				do {
-					BoardVO article = new BoardVO();
+				    BoardVO article = new BoardVO();
 					article.setNum(rs.getInt("num"));
 					article.setWriter(rs.getString("writer"));
 					article.setEmail(rs.getString("email"));
@@ -360,9 +364,94 @@ public class BoardDAO {
 		return result;
 	}
 	
-	
-	
-	
+
+	// 검색한 내용이 몇개인지 알아보는 메소드(검색조건(what), 검색내용(content))
+		public int getArticleCount(String what, String content) {
+			
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			int x = 0;
+			
+			try {
+				con = ConnUtil.getConnection();
+				String sql ="select count(*) from board where "
+				+what+ " like '%" +content+"%'";
+				
+				pstmt = con.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					x = rs.getInt(1);
+				}
+		
+			}catch(Exception ex) {
+				ex.printStackTrace();
+			}finally {
+				if(rs != null) try { rs.close(); }catch(SQLException ss) {}
+				if(pstmt != null) try { pstmt.close(); }catch(SQLException ss) {}
+				if(con != null) try { con.close(); }catch(SQLException ss) {}
+			}
+			return x;
+		}
+		
+		// board table에서 가져올 메소드 구현 List
+		// 검색한 내용을 리스트로 받아옴(what:검색조건, content:검색내용, 
+		//start:시작번호, end:끝번호) 시작번호와 끝번호는 페이 처리
+		public List<BoardVO> getArticles(String what, String content, 
+				int start, int end) {// 수정1
+			
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			List<BoardVO> articleList = null;
+			
+			try {
+				con = ConnUtil.getConnection();
+				
+				// 수정2
+				// select * from board order by num desc
+				pstmt =con.prepareStatement(
+				"select * from (select rownum rnum, num, writer, email, "
+				+ "subject, pass, regdate, readcount, ref, step, depth, "
+				+ "content, ip from (select * from board where "
+				+ what+" like '%"+content+"%' order by ref desc, "
+				+ "step asc)) where rnum >= ? and rnum <= ?");
+				
+				// 수정 3
+				pstmt.setInt(1, start);
+				pstmt.setInt(2, end);
+				
+				rs = pstmt.executeQuery();
+				articleList = new ArrayList<BoardVO>(5);// 수정 4
+				while(rs.next()) {
+				
+					    BoardVO article = new BoardVO();
+						article.setNum(rs.getInt("num"));
+						article.setWriter(rs.getString("writer"));
+						article.setEmail(rs.getString("email"));
+						article.setSubject(rs.getString("subject"));
+						article.setPass(rs.getString("pass"));
+						article.setRegdate(rs.getTimestamp("regdate"));
+						article.setRef(rs.getInt("ref"));
+						article.setStep(rs.getInt("step"));
+						article.setDepth(rs.getInt("depth"));
+						article.setContent(rs.getString("content"));
+						article.setIp(rs.getString("ip"));
+						articleList.add(article);
+					
+				}
+			}catch(Exception ex) {
+				ex.printStackTrace();
+			}finally {
+				if(rs != null) try { rs.close(); }catch(SQLException ss) {}
+				if(pstmt != null) try { pstmt.close(); }catch(SQLException ss) {}
+				if(con != null) try { con.close(); }catch(SQLException ss) {}
+			}
+			
+			return articleList;
+		}
+		
 	
 	
 	
