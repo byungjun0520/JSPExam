@@ -1,7 +1,6 @@
-package memberone;
+package mvcMem.model;
 
-// 회원을 나타내는 데이터 클래스
-public class StudentVO {
+public class StudentVo {
 
 	private String id;
 	private String pass;
@@ -75,7 +74,4 @@ public class StudentVO {
 	public void setAddress2(String address2) {
 		this.address2 = address2;
 	}
-	
-	
-	
 }
