@@ -1,11 +1,15 @@
 package mvcMem.control;
 
 import mvcMem.action.Action;
+import mvcMem.action.DeleteFormAction;
+import mvcMem.action.DeleteProcAction;
 import mvcMem.action.IdCheckAction;
 import mvcMem.action.IndexAction;
 import mvcMem.action.LoginFormAction;
 import mvcMem.action.LoginProcAction;
 import mvcMem.action.LogoutAction;
+import mvcMem.action.ModifyFormAction;
+import mvcMem.action.ModifyProcAction;
 import mvcMem.action.RegFormAction;
 import mvcMem.action.RegProcAction;
 import mvcMem.action.ZipCheckAction;
@@ -62,7 +66,25 @@ private static ActionFactory factory;
 			action = new LogoutAction();
 			break;
 		
-		
+		case "modifyForm" :
+			action = new ModifyFormAction();
+			break;
+			
+		case "modifyProc" :
+			action = new ModifyProcAction();
+			break;	
+			
+		case "deleteForm" :
+			action = new DeleteFormAction();
+			break;
+			
+		case "deleteProc" :
+			action = new DeleteProcAction();
+			break;	
+			
+		default :
+			action = new IndexAction();
+			break;
 		}
 	
 		return action;
