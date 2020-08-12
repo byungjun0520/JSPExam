@@ -4,6 +4,7 @@ import mvcMem.action.Action;
 import mvcMem.action.IdCheckAction;
 import mvcMem.action.IndexAction;
 import mvcMem.action.RegFormAction;
+import mvcMem.action.RegProcAction;
 import mvcMem.action.ZipCheckAction;
 
 
@@ -33,6 +34,10 @@ private static ActionFactory factory;
 		
 		case "regForm" :
 			action = new RegFormAction();
+		break;
+		
+		case "regProc" :
+			action = new RegProcAction();
 		break;
 		
 		case "idCheck" :
