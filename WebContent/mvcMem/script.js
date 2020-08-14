@@ -182,3 +182,16 @@ function updateCheck() {
 	
 	theForm.submit();
 }
+
+function begin() {
+	document.myForm.pass.focus();
+}
+
+function checkIt() {
+	if(!document.myForm.pass.value) {
+		alert("비밀번호가 일치 하지 않습니다.");
+		document.myForm.pass.focus();
+		return false;
+	}
+	//return true;
+}

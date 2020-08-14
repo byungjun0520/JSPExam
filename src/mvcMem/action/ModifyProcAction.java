@@ -31,7 +31,7 @@ public class ModifyProcAction implements Action {
 				request.getParameter("address1"),
 				request.getParameter("address2"));
 			
-		dao.updateMember(vo);
+		dao.updateMemebr(vo);
 		
 		return new ActionForward("/mvcMem/modifyProc.jsp", false);
 	}

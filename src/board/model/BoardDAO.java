@@ -316,6 +316,57 @@ public BoardVO updateGetArticle(int num) {
 		return result;
 	}
 	
+	    // 글삭제
+		// 비밀번호를 입력하고 삭제를 수행
+		//데이터베이스에 저장된 비밀번호와 비교하여 맞으면 수행
+		
+		public int deleteArticle(int num, String pass) {
+			
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String dbpasswd="";
+			int result = -1;
+			
+			try {
+				
+				con = ConnUtil.getConnection();
+				pstmt = con.prepareStatement(
+						"select pass from board where num =?");
+				
+				pstmt.setInt(1, num);
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					dbpasswd = rs.getString("pass");
+					
+					if(dbpasswd.equals(pass)) {
+						
+						pstmt = con.prepareStatement(
+						"delete from board where num=?");
+						
+						pstmt.setInt(1, num);
+						pstmt.executeUpdate();
+						
+						result = 1;
+						// 비밀번호 일치
+						
+					}else {
+						result = 0;
+						// 비밀번호가 틀림
+					}
+				}
+			}catch(Exception ex) {
+				ex.printStackTrace();
+			}finally {
+				if(rs != null) try { rs.close(); }catch(SQLException ss) {}
+				if(pstmt != null) try { pstmt.close(); }catch(SQLException ss) {}
+				if(con != null) try { con.close(); }catch(SQLException ss) {}
+			}
+					
+			return result;
+		}
+		
 
 
 	

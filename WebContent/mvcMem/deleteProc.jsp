@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8" http-equiv="Refresh" content="3;url=login.jsp">
+<meta charset="UTF-8" http-equiv="Refresh" content="3;url=member.mdo?cmd=login">
 <title>회원탈퇴</title>
 </head>
 

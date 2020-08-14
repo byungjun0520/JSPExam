@@ -14,17 +14,19 @@ public class DeleteProcAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 	
 		request.setCharacterEncoding("utf-8");
-		StudentDAO dao = StudentDAO.getInstance();
 		HttpSession session = request.getSession();
+		
 		String loginID =(String)session.getAttribute("loginID");
 		String pass = request.getParameter("pass");
-		
+	
+		StudentDAO dao = StudentDAO.getInstance();
 		int result = dao.deleteMember(loginID, pass);
 		
 		if(result != 0) {
 			session.invalidate();
 		}
 		request.setAttribute("result", result);
+		
 		return new ActionForward("/mvcMem/deleteProc.jsp", false);
 	}
 
