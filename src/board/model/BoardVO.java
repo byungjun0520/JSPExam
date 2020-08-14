@@ -17,6 +17,7 @@ public class BoardVO {
 	private Timestamp regdate;
 	private String content;
 	private String ip;
+	
 	public int getNum() {
 		return num;
 	}
